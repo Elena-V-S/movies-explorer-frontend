@@ -1,0 +1,16 @@
+.logo {
+    background-size: cover;
+    background-position: center;
+    width: 38px;
+    height: 38px;
+    background-repeat: no-repeat;
+}
+.logo :hover {
+    transform: scale(1.1);
+    opacity: 0.8;
+}
+@media screen and (max-width: 320px) {
+    .logo {
+        align-self:center;
+    }
+  }
