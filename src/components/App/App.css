@@ -1,0 +1,32 @@
+.app {
+    background-color: #FFFFFF;
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    min-width: 320px;
+    max-width: 1280px;
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    padding: 0 70px 20px; 
+    
+  }
+ @media screen and (max-width: 768px) {
+    .app {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+  }
+  @media screen and (max-width: 320px) {
+    .app {
+        padding: 0 10px 10px;
+    }
+  } 
+

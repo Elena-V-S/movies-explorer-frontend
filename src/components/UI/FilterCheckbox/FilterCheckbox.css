@@ -1,0 +1,39 @@
+.filter {
+    max-width: 167px;
+}
+.filter__label {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    line-height: 1.4;
+    margin: 0;
+}
+.filter__checkbox-invisible {
+    position: absolute;
+    width: 1px; 
+    height: 1px;
+    overflow: hidden; 
+    clip: rect(0 0 0 0);
+
+}
+.filter__checkbox-visible {
+    background-repeat: no-repeat;
+    width: 36px;
+    height: 20px;
+    margin-left: 14px;
+}
+.filter__checkbox-visible_activ {
+    background-image: url('../../../images/tumbler-on-2.svg'), url('../../../images/tumbler-on.svg');
+    background-position: left 18px top 2px, center;
+}
+.filter__checkbox-visible_inactive {
+    background-image: url('../../../images/tumbler-off-2.svg'), url('../../../images/tumbler-off.svg');
+    background-position: left -3px top -2px, center;
+
+}
+.filter__checkbox-visible:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    opacity: 0.8;
+}

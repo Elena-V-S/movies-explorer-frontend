@@ -1,0 +1,66 @@
+.movie {
+    display: flex;
+    flex-direction: column;
+    max-width: 270px;
+    list-style: none;
+}
+.movie__image {
+    overflow: hidden;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    background-color: #FFFFFF;
+}
+.movie__title {
+    max-width: 226px;
+    font-size: 13px;
+    line-height: 1.2;
+    font-weight: 500;
+    margin: 0;
+    padding-top: 14px;
+    height: 32px;
+    overflow: hidden;
+
+}
+.movie__button {
+    background-image: url('../../images/icon__like_invisible.svg'), url('../../images/back__like.svg');
+    background-repeat: no-repeat;
+    width: 24px;
+    height: 24px;
+    background-position: center;
+    padding: 10px 0 0 0;
+    border: none;
+    background-color: #FFFFFF;
+}
+.movie__button_activ {
+    background-image: url('..//../images/icon__like.svg'), url('../../images/back__like.svg');
+}
+.movie__grup {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 13px;
+}
+.movie__durathion {
+    font-size: 11px;
+    border-top: 1px solid #E8E8E8;
+    padding-top: 6px;
+    line-height: 1.2;
+
+}
+@media screen and (max-width: 768px) {
+    .movie {
+        max-width: 339px;
+    }
+  } 
+
+ @media screen and (max-width: 320px) {
+    .movie {
+        max-width: 300px;
+    }
+    .movie__title {
+        font-size: 12px;
+
+    }
+}
