@@ -8,14 +8,28 @@ import AboutProject from "../AboutProject/AboutProject";
 import NavTab from "../NavTab/NavTab";
 import Header from "../Header/Header";
 import AuthMenu from "../AuthMenu/AuthMenu";
+import Navigation from "../Navigation/Navigation";
+import PopupBurgerMenu from "../PopupBurgerMenu/PopupBurgerMenu";
+
 
 import './Main.css';
 
+function Main({loggedIn}) {
 
-function Main() {
+  const [isEditPopupOpen, setIsEditPopupOpen] = React.useState(false);
+  
+  function handleEditPopupClick() { 
+    setIsEditPopupOpen(true); 
+  } 
+  function closePopup(){ 
+    setIsEditPopupOpen(false); 
+  }
   return (
     <>
-      <Header color={'#073042'} children={ <AuthMenu/> }/>
+      {!loggedIn ? 
+         <Header color={'#073042'} children={ <AuthMenu/> }/>
+         :  <Header   children={ < Navigation onEditPopup={handleEditPopupClick}/> }/>
+        } 
       <Promo/>
       <NavTab/> 
       <AboutProject/>
@@ -23,6 +37,7 @@ function Main() {
       <AboutMe/>
       <Portfolio/>
       <Footer/>
+      {isEditPopupOpen &&  <PopupBurgerMenu onClose={closePopup}/>} 
     </>
   );
 }

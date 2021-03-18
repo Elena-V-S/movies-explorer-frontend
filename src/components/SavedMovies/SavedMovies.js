@@ -11,7 +11,7 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 
 
 
-function SavedMovies() {
+function SavedMovies({movies, isLoading}) {
    //переменная состояния и обработчики событий добавлены для возможности открыть бургер-меню
    const [isEditPopupOpen, setIsEditPopupOpen] = React.useState(false);
 
@@ -26,8 +26,9 @@ function SavedMovies() {
     <div className="saved-movies">
         <Header children={ < Navigation onEditPopup={handleEditPopupClick}/> } color= {'#FFFFFF'} />
         <SearchForm/>
-        <MoviesCardList/>
-        <AddFilmButton/>
+        <MoviesCardList  
+          movies= {movies} 
+          isLoading={isLoading}/>
         <Footer/>
         {isEditPopupOpen &&  <PopupBurgerMenu onClose={closePopup}/>} 
     </div>

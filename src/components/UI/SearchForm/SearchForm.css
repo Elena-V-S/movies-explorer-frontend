@@ -49,8 +49,11 @@
 .search__input:focus {
    border-bottom:  1px solid rgb(236, 233, 233);
 }
-.search__input:invalid {
-    color: orangered;
+  .search__input-error {
+    position: absolute;
+    margin-top: 70px;
+    color: red;
+    font-size: 10px;
   }
   @media screen and (max-width: 768px) {
     .search {

@@ -2,14 +2,20 @@
     display: flex;
     flex-direction: column;
     max-width: 270px;
+    min-height: 151px;
     list-style: none;
 }
 .movie__image {
     overflow: hidden;
     width: 100%;
-    background-size: cover;
+    height: 100%;
+    background-size: contain;
     background-position: center;
     background-color: #FFFFFF;
+}
+.movie__link {
+    width: 100%;
+    height: 100%;
 }
 .movie__title {
     max-width: 226px;
@@ -20,7 +26,6 @@
     padding-top: 14px;
     height: 32px;
     overflow: hidden;
-
 }
 .movie__button {
     background-image: url('../../images/icon__like_invisible.svg'), url('../../images/back__like.svg');
@@ -34,6 +39,9 @@
 }
 .movie__button_activ {
     background-image: url('..//../images/icon__like.svg'), url('../../images/back__like.svg');
+}
+button:focus {
+    outline: none;
 }
 .movie__grup {
     display: flex;
@@ -55,9 +63,10 @@
     }
   } 
 
- @media screen and (max-width: 320px) {
+ @media screen and (max-width: 480px) {
     .movie {
         max-width: 300px;
+        margin: auto;
     }
     .movie__title {
         font-size: 12px;

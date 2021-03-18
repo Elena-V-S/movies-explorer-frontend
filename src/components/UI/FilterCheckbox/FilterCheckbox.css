@@ -17,22 +17,23 @@
     clip: rect(0 0 0 0);
 
 }
-.filter__checkbox-visible {
+.filter__button {
     background-repeat: no-repeat;
     width: 36px;
     height: 20px;
     margin-left: 14px;
+    padding: 0;
 }
-.filter__checkbox-visible_activ {
+.filter__button_activ {
     background-image: url('../../../images/tumbler-on-2.svg'), url('../../../images/tumbler-on.svg');
     background-position: left 18px top 2px, center;
 }
-.filter__checkbox-visible_inactive {
+.filter__button_inactiv {
     background-image: url('../../../images/tumbler-off-2.svg'), url('../../../images/tumbler-off.svg');
     background-position: left -3px top -2px, center;
 
 }
-.filter__checkbox-visible:hover {
+.filter__button:hover {
     cursor: pointer;
     transform: scale(1.1);
     opacity: 0.8;
