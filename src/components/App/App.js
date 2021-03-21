@@ -13,13 +13,14 @@ import Login from "../Login/Login";
 import Profile from "../Profile/Profile";
 import * as MoviesApi from "../../utils/MoviesApi";
 import * as MainApi from "../../utils/MainApi";
-import { filter, createRegex } from "../../utils/utils";
+import { filterByWord, filterByTime, createRegex } from "../../utils/utils";
 import ProtectedRoute from "../ProtectedRoute";
 
 function App() {
   const [isLogged, setIsLogged] = React.useState(false); // стейт для статуса пользователя
   const [allMovies, setAllMovies] = React.useState([]); //стейт для хранения всех фильмов
   const [movies, setMovies] = React.useState([]); //стейт для хранения фильмов отобранных по ключевому слову
+  const [savedMovies, setSavedMovies] = React.useState([]); //стейт для хранения сохраненных пользователем фильмов 
   const [isLoading, setIsLoading] = React.useState(false); // стейт следит за получением ответа от сервера
   const [isSubmited, setIsSubmited] = React.useState(false); // стейт следит за отправкой формы поиска
   const [searchQuery, setSearchQuery] = React.useState(""); // текст запроса
@@ -57,25 +58,80 @@ function App() {
 
  // useEffect -  фильтрация по поисковому слову и метке короткомертажки 
   React.useEffect(() => {
+    let moviesList;
     if (allMovies.length !== 0 && isSubmited) {
       const regex = createRegex(searchQuery);
-      const moviesWithKeyword = filter( allMovies, regex, isShortMovies ); // фильтруем по тексту поиска и метке короткометражки
+      moviesList = filterByWord( allMovies, regex ); // фильтруем по тексту поиска и метке короткометражки
+      if (isShortMovies) {
+         moviesList = filterByTime( filterByWord( allMovies, regex ), isShortMovies ); 
+      }
+      console.log(moviesList)
       // сохраняем в LS результат фильтрации
       localStorage.setItem(
         "moviesWithKeyword",
-        JSON.stringify(moviesWithKeyword)
+        JSON.stringify(moviesList)
       ); 
-      setMovies(moviesWithKeyword);
+      setMovies(moviesList);
       setIsLoading(false); // после получения массива для отрисовки остановим прелоадер
       setIsSubmited(false);// меняем состояние переменной, чтобы избежать автоматической перерисовки карточек при обновлении поискового запроса
     }
   }, [ allMovies, searchQuery, isShortMovies, isSubmited ]);
-  
-
+ 
   // обработчик сабмита формы запроса фильмов
   function handleSearchMoviesSubmit() {
     setIsSubmited(true);
   }
+
+// обработчик клика на лайк
+function handleMovieLike(movie){
+  const {country, director, duration, year, description, nameRU, nameEN} = movie;
+  const image =  `https://api.nomoreparties.co${movie.image.url}`;
+  const thumbnail = `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`;
+  const trailer = movie.trailerLink;
+  const movieId = movie.id
+  
+  MainApi.saveMovie({movieId, country, director, duration, year, description, image, trailer, nameRU, nameEN, thumbnail })
+  .then((newMovie) => {
+    setSavedMovies([ ...movies, newMovie]);
+  })
+  .catch((err) => console.log(8888));
+
+}
+
+// обработчик клика на дизлайк - удаление фильма из коллекции
+function handleMovieDislike(movie) {
+  // сначала получить movie_id фильма в базе savedMovies, потом по этому id удалять фильм
+  // const movieId = 
+  console.log(movie)
+  // MainApi.deleteMovie(movieId)
+  // .then((newSavedMovies) => {
+  //   setSavedMovies(newSavedMovies);
+  // })
+  // .catch((err) => {
+  //   console.log(`Ошибка: ${err}`)
+  // });
+
+}
+
+const getSavedMovies = useCallback(() => {
+     MainApi.getSavedMovies()
+        .then ((data) => {
+          setSavedMovies(data);
+           // сохраняем в LS savedMovies
+      localStorage.setItem(
+        "savedMovies",
+        JSON.stringify(savedMovies)
+      );
+        })
+        .catch((err) => {
+            console.log(`Ошибка: ${err}`)
+          });
+  }, [])
+
+    // эффект, вызываемый при обновлении loggedIn, получаем все сохраненные пользователем фильмы
+    React.useEffect(() => {
+      getSavedMovies();
+    }, [isLogged, getSavedMovies]);
 
   // обработчик сабмита формы регистрации нового пользователя
   function onRegister(name, email, password) {
@@ -131,7 +187,7 @@ function App() {
     if (localStorage.getItem("jwt")) {
       // проверим токен
       let jwt = localStorage.getItem("jwt");
-      MainApi.getContent(jwt)
+      MainApi.getUserData(jwt)
         .then((user) => {
           console.log(user);
           setIsLogged(true); // авторизуем пользователя
@@ -153,6 +209,16 @@ function App() {
     tokenCheck();
   }, [isLogged, tokenCheck]);
 
+  // обработчик сабмита формы редактирования профиля
+  function handleUpdateUser( name, email ) {
+    console.log( name, email )
+    MainApi.patchUserData({ name, email })
+      .then((res) => {
+        setCurrentUser(res);
+      })
+      .catch((err) => console.log(`Ошибка: ${err}`));
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="app">
@@ -169,14 +235,17 @@ function App() {
             setSearchQuery={setSearchQuery}
             movies={movies}
             isLoading={isLoading}
+            allMovies={allMovies}
             handleCheckbox={setIsShortMovies}
             badMoviesRequest={badMoviesRequest}
+            onMovieLike={handleMovieLike}
+            onMovieDislike={handleMovieDislike}
           />
           <ProtectedRoute
             path="/saved-movies"
             loggedIn={isLogged}
             component={SavedMovies}
-            movies={movies}
+            savedMovies={savedMovies}
             isLoading={isLoading}
           />
           <ProtectedRoute
@@ -184,6 +253,8 @@ function App() {
             loggedIn={isLogged}
             component={Profile}
             onSignOut={onSignOut}
+            handleProfileUpdate={handleUpdateUser}
+
           />
           <Route path="/signin">
             <Login handleLogin={onLogin} />

@@ -18,7 +18,7 @@ function Auth({ errors, userName, welcome, link, textButton, textLink, type, han
                        value={valuesUsername || ''} 
                        onChange={handleChange} 
                        minLength={ 2 }
-                    //    pattern = '[a-zA-Z\s-]'
+                       pattern="^[a-zA-Z\s\-]+$"
                        required/>
                        {errors.username && <span className="auth__error">{errors.username}</span>}
                        </label>
@@ -28,7 +28,9 @@ function Auth({ errors, userName, welcome, link, textButton, textLink, type, han
                       <input id="email" name="email" type="email" className="auth__input" placeholder="pochta@yandex.ru" 
                       value={valueEmail || ''} 
                       onChange={handleChange} 
-                      required/>
+                      required
+                      pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                      />
                       {errors.email && <span className="auth__error">{errors.email}</span>}
                       <span className="auth__error">{errors.email}</span>
                       </label>

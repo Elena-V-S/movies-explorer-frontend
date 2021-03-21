@@ -5,21 +5,19 @@ import Preloader from "..//Preloader/Preloader";
 import AddFilmButton from "../UI/AddFilmButton/AddFilmButton";
 import { calculate } from "../../utils/utils";
 
-function MoviesCardList({ movies, isLoading, badMoviesRequest }) {
+
+function MoviesCardList({ movies, isLoading, allMovies, badMoviesRequest, onMovieLike, onMovieDislike, isSaved }) {
 
   const [windowWidth, setWindowWidth] = React.useState(window.screen.width);
   const [countRenderedMovies, setCountRenderedMovies] = React.useState(0); // счетчик отрисованных карточек фильмов 
   const [addRenderedMovies, setAddRenderedMovies] = React.useState(0); 
-  
+
   let timer; // переменная, хранящая идентификатор таймера
   
   // в зависимости от ширины окна вычисляем значения сколько фильмов будет отображено сначала 
   // и сколько будет добавлено при клике на кнопку Ещё
    React.useEffect(() => {
- 
-    console.log(windowWidth)
     const { startNumber, addNumber } = calculate(windowWidth);
-    console.log(startNumber)
     setCountRenderedMovies(startNumber);
     setAddRenderedMovies(addNumber);
   }, [windowWidth]);
@@ -30,7 +28,7 @@ function MoviesCardList({ movies, isLoading, badMoviesRequest }) {
     if (timer) {
       clearTimeout(timer);
     }
-    timer = setTimeout(() => setWindowWidth(window.screen.width), 2000);
+    timer = setTimeout(() => setWindowWidth(window.screen.width), 1000);
   };
 
   // эффект срабатывает если пользователь изменяет размер окна браузера
@@ -39,6 +37,7 @@ function MoviesCardList({ movies, isLoading, badMoviesRequest }) {
 
     return () => window.removeEventListener('resize',  resizedWindow);
   });
+
 
   // обработчик клика на кнопку Ещё 
     function handleAddButton() {
@@ -51,27 +50,39 @@ function MoviesCardList({ movies, isLoading, badMoviesRequest }) {
             {isLoading 
             ? <Preloader/>
             : <ul className="movies__list"> 
-                 { movies.reduce((moviesToRender, movie) => {
-                if (moviesToRender.length < countRenderedMovies) {
-                  moviesToRender.push(
+              {isSaved
+              ? (movies.map((movie) => <MoviesCard
+               movie={movie}
+              key={movie._id}
+              onMovieLike={onMovieLike}
+              onMovieDislike={onMovieDislike}
+              isSaved = {isSaved}
+              />))
+              : (movies.reduce((moviesToRender, movie) => {
+                  if (moviesToRender.length < countRenderedMovies) {
+                    moviesToRender.push(
                     <MoviesCard
                       movie={movie}
                       key={movie.id}
+                      onMovieLike={onMovieLike}
+                      onMovieDislike={onMovieDislike}
+                      isSaved = {isSaved}
                     />,
                   );
                 }
                 return moviesToRender;
-              }, [])
+              }, []))
             }
               </ul>
             }
-            {(movies.length === 0 && isLoading) && <p className="movies-notFound">Ничего не найдено</p>}
-            {badMoviesRequest && <p className="movies-notFound">Во время запроса произошла ошибка.
+            {!isSaved && (movies.length === 0 && allMovies.length !== 0) && <p className="movies-notFound">Ничего не найдено</p>}
+            {!isSaved && badMoviesRequest && <p className="movies-notFound">Во время запроса произошла ошибка.
              Возможно, проблема с соединением или сервер недоступен. 
              Подождите немного и попробуйте ещё раз</p>}
+            {isSaved && (movies.length === 0 && allMovies.length !== 0) && <p className="movies-notFound">У вас нет сохраненных фильмов</p>}
         
         </section> 
-        {movies.length > countRenderedMovies && <AddFilmButton onClick={handleAddButton} />}
+        { !isSaved && (allMovies.length === 0 || (allMovies !== [] &&  movies.length) > countRenderedMovies) && <AddFilmButton onClick={handleAddButton} />}
       </>
       );
     }

@@ -1,9 +1,11 @@
-export const filter = ( movies, regex, isShortMovies ) => {
-    if (isShortMovies) {
-        return movies.filter((movie) => regex.test(movie.nameRU)).filter((movie) => movie.duration < 41);
-    }
+export const filterByWord = ( movies, regex ) => {
     return movies.filter((movie) => regex.test(movie.nameRU));
   }; 
+
+export const filterByTime = ( movies ) => {
+    return movies.filter((movie) => movie.duration < 41);
+   
+  };
 
 export const createRegex = (word) => new RegExp(`${word}`, 'gi');
 

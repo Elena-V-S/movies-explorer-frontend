@@ -27,8 +27,6 @@ function Login({ handleLogin }) {
       link='/signup'
       valueEmail={values.email}
       valuePassword={values.password}
-      onChangePassword={handleChange}
-      onChangeEmail= {handleChange}
       handleChange={handleChange}
       handleSubmit={handleSubmit}
       errors={errors}

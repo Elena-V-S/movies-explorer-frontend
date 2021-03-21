@@ -28,7 +28,7 @@
     overflow: hidden;
 }
 .movie__button {
-    background-image: url('../../images/icon__like_invisible.svg'), url('../../images/back__like.svg');
+    /* background-image: url('../../images/icon__like_invisible.svg'), url('../../images/back__like.svg'); */
     background-repeat: no-repeat;
     width: 24px;
     height: 24px;
@@ -37,8 +37,17 @@
     border: none;
     background-color: #FFFFFF;
 }
-.movie__button_activ {
+.movie__button-like {
+    background-image: url('../../images/icon__like_invisible.svg'), url('../../images/back__like.svg');
+}
+
+.movie__button-like_activ {
     background-image: url('..//../images/icon__like.svg'), url('../../images/back__like.svg');
+}
+.movie__button-delete {
+    background-image: url('../../images/icon-delete.svg');
+    background-color:  #F5F5F5;
+    border-radius: 50%;
 }
 button:focus {
     outline: none;

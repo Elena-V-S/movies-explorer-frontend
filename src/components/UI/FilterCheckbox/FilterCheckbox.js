@@ -9,6 +9,7 @@ function FilterCheckbox( { handleCheckbox }) {
     handleCheckbox(!isChecked);
     setIsChecked(!isChecked);
   }
+  console.log()
   
   return (
     <form className="filter">

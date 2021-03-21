@@ -8,8 +8,8 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Footer from '../Footer/Footer';
 import PopupBurgerMenu from "../PopupBurgerMenu/PopupBurgerMenu";
 
-function Movies({ movies, isLoading, onSearchMovies, searchQuery, setSearchQuery, 
-                  handleCheckbox , notFoundMovies, badMoviesRequest }) {
+function Movies({ movies, isLoading, allMovies, onSearchMovies, searchQuery, setSearchQuery, 
+                  handleCheckbox , notFoundMovies, badMoviesRequest, onMovieLike, onMovieDislike }) {
   
   const [isEditPopupOpen, setIsEditPopupOpen] = React.useState(false);
   
@@ -27,8 +27,11 @@ function Movies({ movies, isLoading, onSearchMovies, searchQuery, setSearchQuery
         <MoviesCardList 
           movies= {movies} 
           isLoading={isLoading}
+          allMovies={allMovies}
           notFoundMovies={notFoundMovies}
           badMoviesRequest={badMoviesRequest}
+          onMovieLike={onMovieLike}
+          onMovieDislike={onMovieDislike}
          />
         <Footer/>
         {isEditPopupOpen &&  <PopupBurgerMenu onClose={closePopup}/>} 

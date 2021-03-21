@@ -30,6 +30,7 @@
 
 }
 .profile__input {
+    position: relative;
     outline-style: none;
     border: none;
     font-size: 11px;
@@ -38,11 +39,17 @@
 }
 .profile__input:focus {
     background-color:  rgb(236, 233, 233);
-    
 }
 .profile__input:invalid {
-    color: #FF3055;
+    color: hsl(349, 100%, 59%);
 } 
+.profile__input-error {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    color: hsl(349, 100%, 59%);
+    font-size: 8px;
+}
 .profile__button {
     grid-column-start: 1;
     grid-column-end: 3;
@@ -52,6 +59,14 @@
     border: none;
     background-color: #FFFFFF;
     margin-top: 220px;
+}
+.profile__button_active {
+    color: black;
+
+}
+.profile__button_inactive {
+    color: gray;
+
 }
 .profile__button:hover {
     cursor: pointer;

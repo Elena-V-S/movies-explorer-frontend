@@ -6,29 +6,31 @@ import Navigation from "../Navigation/Navigation";
 import SearchForm from "../UI/SearchForm/SearchForm";
 import Footer from '../Footer/Footer';
 import PopupBurgerMenu from "../PopupBurgerMenu/PopupBurgerMenu";
-import AddFilmButton from "../UI/AddFilmButton/AddFilmButton";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
+function SavedMovies({savedMovies, isLoading}) {
 
+  const currentUser = React.useContext(CurrentUserContext); // подписка на контекст
 
-function SavedMovies({movies, isLoading}) {
-   //переменная состояния и обработчики событий добавлены для возможности открыть бургер-меню
-   const [isEditPopupOpen, setIsEditPopupOpen] = React.useState(false);
+  //переменная состояния и обработчики событий добавлены для возможности открыть бургер-меню
+  const [isEditPopupOpen, setIsEditPopupOpen] = React.useState(false);
 
-   function handleEditPopupClick() { 
-     setIsEditPopupOpen(true);
-     
- } 
- function closePopup(){ 
-   setIsEditPopupOpen(false); 
- }
+  function handleEditPopupClick() { 
+    setIsEditPopupOpen(true);
+  } 
+
+  function closePopup(){ 
+    setIsEditPopupOpen(false); 
+  }
   return (
     <div className="saved-movies">
         <Header children={ < Navigation onEditPopup={handleEditPopupClick}/> } color= {'#FFFFFF'} />
         <SearchForm/>
         <MoviesCardList  
-          movies= {movies} 
-          isLoading={isLoading}/>
+          movies= {savedMovies} 
+          isLoading={isLoading}
+          isSaved = {true}/>
         <Footer/>
         {isEditPopupOpen &&  <PopupBurgerMenu onClose={closePopup}/>} 
     </div>
