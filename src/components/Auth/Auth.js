@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Logo from "../UI/Logo/Logo";
 import './Auth.css';
 
-function Auth({ errors, userName, welcome, link, textButton, textLink, type, handleSubmit, valuesUsername, valueEmail, valuePassword, handleChange, formIsValid, badRequest }) {
+function Auth({ errors, userName, welcome, link, textButton, textLink, type, handleSubmit, valuesUsername, valueEmail, valuePassword, handleChange, formIsValid, badRequest, errorText }) {
  
     return (
         <div className="auth">
@@ -18,7 +18,7 @@ function Auth({ errors, userName, welcome, link, textButton, textLink, type, han
                        value={valuesUsername || ''} 
                        onChange={handleChange} 
                        minLength={ 2 }
-                       pattern="^[a-zA-Z\s\-]+$"
+                    //    pattern="^[a-zA-Z\s\-]+$"
                        required/>
                        {errors.username && <span className="auth__error">{errors.username}</span>}
                        </label>
@@ -29,7 +29,7 @@ function Auth({ errors, userName, welcome, link, textButton, textLink, type, han
                       value={valueEmail || ''} 
                       onChange={handleChange} 
                       required
-                      pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                    //   pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                       />
                       {errors.email && <span className="auth__error">{errors.email}</span>}
                       <span className="auth__error">{errors.email}</span>
@@ -47,7 +47,7 @@ function Auth({ errors, userName, welcome, link, textButton, textLink, type, han
                   </li>
                 </ul>
                 <div className="auth__button-block">
-                    {badRequest && <p className="auth__error-request">Что-то пошло не так</p>}
+                    {badRequest && <p className="auth__error-request">{errorText}</p>}
                     <button  type="submit"  className={ formIsValid  ? "auth__button auth__button-active" : "auth__button auth__button-inactive"}  disabled={!formIsValid} >{textButton}</button>
                   </div>
            </form>

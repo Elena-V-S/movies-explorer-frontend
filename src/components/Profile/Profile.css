@@ -50,15 +50,28 @@
     color: hsl(349, 100%, 59%);
     font-size: 8px;
 }
-.profile__button {
+
+.profile__change-request {
+    text-align: center;
+    margin: 0 auto 15px;
+    width: 100%;
+    font-size: 24px;
+}
+.profile__button-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     grid-column-start: 1;
     grid-column-end: 3;
     font-size: 13px;
     line-height: 1.2;
     font-weight: 400;
+  
+    margin-top: 220px;
+}
+.profile__button {
     border: none;
     background-color: #FFFFFF;
-    margin-top: 220px;
 }
 .profile__button_active {
     color: black;

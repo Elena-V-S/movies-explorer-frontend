@@ -9,10 +9,15 @@ import Footer from '../Footer/Footer';
 import PopupBurgerMenu from "../PopupBurgerMenu/PopupBurgerMenu";
 
 function Movies({ movies, isLoading, allMovies, onSearchMovies, searchQuery, setSearchQuery, 
-                  handleCheckbox , notFoundMovies, badMoviesRequest, onMovieLike, onMovieDislike }) {
+                  handleCheckbox , notFoundMovies, badMoviesRequest, onMovieLike, onMovieDislike, isSubmited, isShortMovies }) {
   
   const [isEditPopupOpen, setIsEditPopupOpen] = React.useState(false);
   
+  React.useEffect(() => {
+    setSearchQuery("");
+    handleCheckbox(false);
+  }, [ setSearchQuery, handleCheckbox ]);
+
   function handleEditPopupClick() { 
     setIsEditPopupOpen(true); 
   } 
@@ -23,7 +28,7 @@ function Movies({ movies, isLoading, allMovies, onSearchMovies, searchQuery, set
   return (
     <div className="movies"> 
         <Header children={ < Navigation onEditPopup={handleEditPopupClick}/> } color= {'#FFFFFF'} />
-        <SearchForm onSearchMovies={onSearchMovies} searchQuery={searchQuery} setSearchQuery={setSearchQuery} handleCheckbox={handleCheckbox}/>
+        <SearchForm onSearchMovies={onSearchMovies} searchQuery={searchQuery} setSearchQuery={setSearchQuery} handleCheckbox={handleCheckbox} isShortMovies={isShortMovies} />
         <MoviesCardList 
           movies= {movies} 
           isLoading={isLoading}
@@ -32,6 +37,7 @@ function Movies({ movies, isLoading, allMovies, onSearchMovies, searchQuery, set
           badMoviesRequest={badMoviesRequest}
           onMovieLike={onMovieLike}
           onMovieDislike={onMovieDislike}
+          isSubmited={isSubmited}
          />
         <Footer/>
         {isEditPopupOpen &&  <PopupBurgerMenu onClose={closePopup}/>} 

@@ -5,12 +5,17 @@ import Header from "../Header/Header";
 import Navigation from "../Navigation/Navigation";
 import PopupBurgerMenu from "../PopupBurgerMenu/PopupBurgerMenu";
 import "./Profile.css";
-import useFormWithValidation from "../FormValidation/FormValidation";
+import useFormWithValidation from "../../hooks/FormValidation";
+import {messageChangeProfile} from "../../utils/massages";
 
-function Profile({ onSignOut, handleProfileUpdate }) {
+function Profile({ onSignOut, handleProfileUpdate, badRequest, setBadRequest }) {
   
   const currentUser = React.useContext(CurrentUserContext); // подписка на контекст
-
+  
+  React.useEffect(() => {
+    setBadRequest(false);
+  }, [setBadRequest])
+  
   const {
     values,
     errors,
@@ -27,7 +32,7 @@ function Profile({ onSignOut, handleProfileUpdate }) {
     handleProfileUpdate(values.name, values.email); 
     resetForm();
   };
-  //переменная состояния и обработчики событий добавлены для возможности открыть бургер-меню
+ 
   const [isEditPopupOpen, setIsEditPopupOpen] = React.useState(false);
 
   function handleEditPopupClick() {
@@ -54,7 +59,7 @@ function Profile({ onSignOut, handleProfileUpdate }) {
               id="name"
               name="name"
               type="text"
-              value={values.name}
+              value={values.name || ''}
               onChange={handleChange}
               className="profile__input profile__border"
               minLength="2"
@@ -73,7 +78,7 @@ function Profile({ onSignOut, handleProfileUpdate }) {
               id="email"
               name="email"
               type="email"
-              value={values.email}
+              value={values.email || ''}
               onChange={handleChange}
               className="profile__input"
               // pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" // не работает
@@ -83,22 +88,14 @@ function Profile({ onSignOut, handleProfileUpdate }) {
               <span className="profile__input-error">{errors.email}</span>
             )}
           </div>
-          <button
-            type="submit"
-            onClick={handleSubmit}
-            className={
-              isValid
-                ? "profile__button profile__button_active"
-                : "profile__button profile__button_inactive"
-            }
-            disabled={!isValid}
-          >
-            Редактировать
-          </button>
+          <div className="profile__button-block">
+              {badRequest && <p className="profile__change-request">{messageChangeProfile}</p>}
+              <button type="submit" onClick={handleSubmit} className={isValid ? "profile__button profile__button_active" : "profile__button profile__button_inactive"} disabled={!isValid}>
+               Редактировать
+              </button>
+          </div>
         </form>
-        <button onClick={onSignOut} className="profile__signout">
-          Выйти из аккаунта
-        </button>
+        <button onClick={onSignOut} className="profile__signout"> Выйти из аккаунта</button>
       </div>
       {isEditPopupOpen && <PopupBurgerMenu onClose={closePopup} />}
     </>

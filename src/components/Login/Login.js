@@ -1,9 +1,10 @@
 import React from 'react';
-import useFormWithValidation from "../FormValidation/FormValidation";
+import useFormWithValidation from "../../hooks/FormValidation";
 
 import Auth from "../Auth/Auth";
+import { messageFailLogin } from "../../utils/massages";
 
-function Login({ handleLogin }) {
+function Login({ handleLogin, badRequest}) {
   const {
     values,
     errors,
@@ -31,6 +32,8 @@ function Login({ handleLogin }) {
       handleSubmit={handleSubmit}
       errors={errors}
       formIsValid={isValid}
+      badRequest={badRequest}
+      errorText={messageFailLogin}
       />
   );
 }

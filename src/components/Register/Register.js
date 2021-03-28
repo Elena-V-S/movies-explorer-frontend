@@ -1,10 +1,11 @@
 import React from 'react';
 
 import Auth from "../Auth/Auth";
-import useFormWithValidation from "../FormValidation/FormValidation";
+import useFormWithValidation from "../../hooks/FormValidation";
+import {messageFailRegister} from "../../utils/massages";
 
 
-function Register({ handleRegister, badRequest }) {
+function Register({ handleRegister, badRequest}) {
   const {
     values,
     errors,
@@ -17,7 +18,6 @@ function Register({ handleRegister, badRequest }) {
     evt.preventDefault();
     handleRegister(values.username, values.email, values.password);
     resetForm();
-    
   };
 
     return (
@@ -37,6 +37,8 @@ function Register({ handleRegister, badRequest }) {
       handleSubmit={handleSubmit}
       errors={errors}
       formIsValid={isValid}
+      badRequest={badRequest}
+      errorText={messageFailRegister}
       />
   );
 }
