@@ -44,6 +44,7 @@ function App() {
   // обработчик сабмита формы запроса фильмов
   function handleSearchMoviesSubmit() {
     setIsSubmited(true);
+    setIsShortMovies(false);
   }
 
   // добавление фильма в избранное
@@ -131,7 +132,6 @@ function App() {
       localStorage.removeItem("jwt"); //удалим токен из localStorage
       localStorage.removeItem("AllMovies"); //удалим данные из localStorage
       localStorage.removeItem("moviesWithKeyword"); //удалим данные из localStorage
-      localStorage.removeItem("savedMovies"); //удалим данные из localStorage тттттттттттт
       setIsLogged(false);
       setFindMovies([]);
       history.push("/");
@@ -154,9 +154,6 @@ function App() {
           setSavedMoviesId(idArray);
           history.push("/movies"); 
           return dataSavedMovies;
-        })
-        .then((dataSavedMovies) => {
-          localStorage.setItem("savedMovies", JSON.stringify(dataSavedMovies)); // сохраняем в LS savedMovies
         })
         .catch((err) => {
           if (err === 400) {
