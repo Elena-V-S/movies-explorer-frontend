@@ -2,7 +2,7 @@ import React from 'react';
 
 import Auth from "../Auth/Auth";
 import useFormWithValidation from "../../hooks/FormValidation";
-import {messageFailRegister} from "../../utils/massages";
+import {messageFailRegister} from "../../constants/massages";
 
 
 function Register({ handleRegister, badRequest}) {

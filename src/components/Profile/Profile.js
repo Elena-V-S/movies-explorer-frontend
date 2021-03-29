@@ -6,7 +6,7 @@ import Navigation from "../Navigation/Navigation";
 import PopupBurgerMenu from "../PopupBurgerMenu/PopupBurgerMenu";
 import "./Profile.css";
 import useFormWithValidation from "../../hooks/FormValidation";
-import {messageChangeProfile} from "../../utils/massages";
+import {messageChangeProfile} from "../../constants/massages";
 
 function Profile({ onSignOut, handleProfileUpdate, badRequest, setBadRequest }) {
   

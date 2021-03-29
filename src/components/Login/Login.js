@@ -2,7 +2,7 @@ import React from 'react';
 import useFormWithValidation from "../../hooks/FormValidation";
 
 import Auth from "../Auth/Auth";
-import { messageFailLogin } from "../../utils/massages";
+import { messageFailLogin } from "../../constants/massages";
 
 function Login({ handleLogin, badRequest}) {
   const {

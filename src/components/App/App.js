@@ -11,8 +11,10 @@ import SavedMovies from "../SavedMovies/SavedMovies";
 import Register from "../Register/Register";
 import Login from "../Login/Login";
 import Profile from "../Profile/Profile";
+import PageNotFound from "../PageNotFound/PageNotFound";
 import * as MoviesApi from "../../utils/MoviesApi";
 import * as MainApi from "../../utils/MainApi";
+import { path } from "../../constants/path-options";
 
 import {
   filterByWord,
@@ -36,6 +38,7 @@ function App() {
   const [searchQuery, setSearchQuery] = React.useState(""); // текст запроса
   const [currentUser, setCurrentUser] = React.useState({}); // стейт данных текущего пользователя
   const [isShortMovies, setIsShortMovies] = React.useState(false); //выбраны ли короткометражные фильмы
+
 
   const [badRequest, setBadRequest]  = React.useState(false);// отображение сообщения об ошибке
   
@@ -105,7 +108,6 @@ function App() {
       .then(() => {
         setIsLogged(true);
         setBadRequest(false);
-
       })
       .catch((err) => {
         console.log(err)
@@ -140,6 +142,7 @@ function App() {
   // функция проверки валидности токена, если у пользователя есть токен в localStorage
   // и обращение за фильмами добавленными в избранное 
   const tokenCheck = useCallback(() => {
+  
     if (localStorage.getItem("jwt")) { // проверим токен
       let jwt = localStorage.getItem("jwt");
       MainApi.getUserData(jwt)
@@ -152,6 +155,12 @@ function App() {
           setSavedMovies(dataSavedMovies);// обновим стейт с фильмами сохраненными в избранное
           const idArray = dataSavedMovies.map((movie) => movie.movieId);
           setSavedMoviesId(idArray);
+          if (localStorage.getItem("AllMovies")) {
+            setAllMovies(JSON.parse(localStorage.getItem("AllMovies")));
+          }
+          if (localStorage.getItem("moviesWithKeyword")) {
+            setFindMovies(JSON.parse(localStorage.getItem("moviesWithKeyword")));
+          }
           history.push("/movies"); 
           return dataSavedMovies;
         })
@@ -161,7 +170,6 @@ function App() {
           } else if (err === 401) {
             console.log("Переданный токен некорректен");
           }
-          
         });
     }
   }, [history]);
@@ -230,12 +238,8 @@ function App() {
 
   // эффект, вызываемый при обновлении isLogged, проверяет валидность токена
   React.useEffect(() => {
-    tokenCheck();
-    if (localStorage.getItem("AllMovies")) {
-      setAllMovies(JSON.parse(localStorage.getItem("AllMovies")));
-    }
-    if (localStorage.getItem("moviesWithKeyword")) {
-      setFindMovies(JSON.parse(localStorage.getItem("moviesWithKeyword")));
+    if (path.includes(window.location.pathname)) {
+      tokenCheck();
     }
   }, [isLogged, tokenCheck]);
 
@@ -293,6 +297,9 @@ function App() {
           </Route>
           <Route path="/signup">
             <Register handleRegister={onRegister} badRequest={badRequest}/>
+          </Route>
+          <Route path="*">
+             <PageNotFound />
           </Route>
         </Switch>
       </div>

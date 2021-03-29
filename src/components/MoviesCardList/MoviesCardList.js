@@ -4,7 +4,7 @@ import MoviesCard from "../MoviesCard/MoviesCard";
 import Preloader from "..//Preloader/Preloader";
 import AddFilmButton from "../UI/AddFilmButton/AddFilmButton";
 import { calculate } from "../../utils/utils";
-import * as Messages from "../../utils/massages";
+import * as Messages from "../../constants/massages";
 
 
 function MoviesCardList({ movies, isLoading, allMovies, onMovieLike, onMovieDislike, isSaved, badRequest}) {
