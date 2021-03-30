@@ -1,23 +1,19 @@
 import React from 'react';
 import './FilterCheckbox.css';
 
+function FilterCheckbox( { handleCheckbox, isShortMovies }) {
 
-function FilterCheckbox(props) {
-    const [duration, setDuration] = React.useState(true);
+  function onChange() {
+    handleCheckbox(!isShortMovies);
+  }
 
-    function handleDurationChange(e) {
-            setDuration(false);
-          }
-
-    return (
-        <form onSubmit={props.handleSubmit} className="filter">
-            <label className="filter__label">Короткометражки
-                <input type="checkbox" checked={duration} onChange={handleDurationChange} className="filter__checkbox-invisible"/>
-                <div className="filter__checkbox-visible filter__checkbox-visible_activ"/>
-            </label>
-            
-        </form>
-      );
-    }
-
-    export default FilterCheckbox;
+  return (
+    <form className="filter">
+        <label className="filter__label">Короткометражки
+            <input type="checkbox" checked={isShortMovies} onChange={onChange} className="filter__checkbox-invisible"/>
+            <div  className={`filter__button ${ isShortMovies ? 'filter__button_activ' : 'filter__button_inactiv' }`}/>
+        </label>
+    </form>
+  );
+}
+export default FilterCheckbox;

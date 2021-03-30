@@ -1,6 +1,9 @@
 .movies__blok {
+    display: flex;
+    flex-direction: column;
     width: 100%;
     padding: 70px 0 0;
+    margin: auto;
 }
 .movies__list {
     width: 100%;
@@ -14,13 +17,18 @@
     padding: 0;
     margin: 0;
 }
+.movies-notFound {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 500;
+}
 @media screen and (max-width: 768px) {
     .movies__list {
         grid-template-columns: repeat(2, 1fr);
         grid-column-gap: 30px;
     }
 }
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 480px) {
     .movies__list {
         grid-template-columns:  1fr;
         grid-row-gap: 34px;

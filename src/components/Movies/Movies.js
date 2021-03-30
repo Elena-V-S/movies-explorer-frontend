@@ -7,26 +7,38 @@ import SearchForm from "../UI/SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Footer from '../Footer/Footer';
 import PopupBurgerMenu from "../PopupBurgerMenu/PopupBurgerMenu";
-import AddFilmButton from "../UI/AddFilmButton/AddFilmButton";
 
-
-function Movies() {
-  //переменная состояния и обработчики событий добавлены для возможности открыть бургер-меню
+function Movies({ movies, isLoading, allMovies, onSearchMovies, searchQuery, setSearchQuery, 
+                  handleCheckbox , notFoundMovies, badMoviesRequest, onMovieLike, onMovieDislike, isSubmited, isShortMovies }) {
+  
   const [isEditPopupOpen, setIsEditPopupOpen] = React.useState(false);
+  
+  React.useEffect(() => {
+    setSearchQuery("");
+    handleCheckbox(false);
+  }, [ setSearchQuery, handleCheckbox ]);
 
   function handleEditPopupClick() { 
     setIsEditPopupOpen(true); 
-} 
-function closePopup(){ 
-  setIsEditPopupOpen(false); 
-}
+  } 
+  function closePopup(){ 
+    setIsEditPopupOpen(false); 
+  }
   
   return (
     <div className="movies"> 
         <Header children={ < Navigation onEditPopup={handleEditPopupClick}/> } color= {'#FFFFFF'} />
-        <SearchForm/>
-        <MoviesCardList/>
-        <AddFilmButton/>
+        <SearchForm onSearchMovies={onSearchMovies} searchQuery={searchQuery} setSearchQuery={setSearchQuery} handleCheckbox={handleCheckbox} isShortMovies={isShortMovies} />
+        <MoviesCardList 
+          movies= {movies} 
+          isLoading={isLoading}
+          allMovies={allMovies}
+          notFoundMovies={notFoundMovies}
+          badMoviesRequest={badMoviesRequest}
+          onMovieLike={onMovieLike}
+          onMovieDislike={onMovieDislike}
+          isSubmited={isSubmited}
+         />
         <Footer/>
         {isEditPopupOpen &&  <PopupBurgerMenu onClose={closePopup}/>} 
     </div>

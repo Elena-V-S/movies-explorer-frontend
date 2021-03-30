@@ -1,21 +1,48 @@
 import React from 'react';
 
 import Auth from "../Auth/Auth";
+import useFormWithValidation from "../../hooks/FormValidation";
+import {messageFailRegister} from "../../constants/massages";
 
-function Register() {
+
+function Register({ handleRegister, badRequest}) {
+  const {
+    values,
+    errors,
+    isValid,
+    handleChange,
+    resetForm
+  } = useFormWithValidation({});
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    handleRegister(values.username, values.email, values.password);
+    resetForm();
+  };
+
     return (
       <Auth 
-      children={
-      <label htmlFor="name" className="auth_label">Имя
-          <input id="name" name="name" type="text" placeholder="Виталий" className="auth__input" minLength="2" required/>
-      </label>}
+      userName={true}
       welcome="Добро пожаловать!"
       textButton='Зарегистрироваться'
       textLink='Войти'
       text='Уже зарегистрированы?'
       link='/signin'
+      valuesUsername={values.username}
+      valueEmail={values.email}
+      valuePassword={values.password}
+      onChangePassword={handleChange}
+      onChangeEmail= {handleChange}
+      handleChange={handleChange}
+      handleSubmit={handleSubmit}
+      errors={errors}
+      formIsValid={isValid}
+      badRequest={badRequest}
+      errorText={messageFailRegister}
       />
   );
 }
 
 export default Register;
+
+
